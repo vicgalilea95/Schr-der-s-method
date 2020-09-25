@@ -1,0 +1,1050 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     51434,       1042]
+NotebookOptionsPosition[     50768,       1023]
+NotebookOutlinePosition[     51142,       1039]
+CellTagsIndexPosition[     51099,       1036]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"p", "[", "z_", "]"}], "=", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"z", "^", "2"}], "-", "1"}], ")"}], 
+    RowBox[{"(", 
+     RowBox[{"z", "-", "\[Lambda]"}], ")"}]}]}], ";", " ", 
+  RowBox[{
+   RowBox[{"lp", "[", "z_", "]"}], "=", 
+   RowBox[{
+    RowBox[{"p", "[", "z", "]"}], 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"p", "''"}], "[", "z", "]"}], "/", 
+      RowBox[{
+       RowBox[{"p", "'"}], "[", "z", "]"}]}], "/", 
+     RowBox[{
+      RowBox[{"p", "'"}], "[", "z", "]"}]}]}]}], ";", 
+  RowBox[{
+   RowBox[{"sp", "[", "z_", "]"}], "=", 
+   RowBox[{"z", "-", 
+    RowBox[{
+     RowBox[{"1", "/", 
+      RowBox[{"(", 
+       RowBox[{"1", "-", 
+        RowBox[{"lp", "[", "z", "]"}]}], ")"}]}], 
+     RowBox[{
+      RowBox[{"p", "[", "z", "]"}], "/", 
+      RowBox[{
+       RowBox[{"p", "'"}], "[", "z", "]"}]}]}]}]}], ";", " ", 
+  RowBox[{"soluciones", "=", 
+   RowBox[{"Solve", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", "2"}], " ", 
+        RowBox[{"(", 
+         RowBox[{"\[Lambda]", "+", 
+          SuperscriptBox["\[Lambda]", "3"]}], ")"}]}], "+", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"3", "+", 
+          RowBox[{"9", " ", 
+           SuperscriptBox["\[Lambda]", "2"]}]}], ")"}], " ", "z"}], "-", 
+       RowBox[{"12", " ", "\[Lambda]", " ", 
+        SuperscriptBox["z", "2"]}], "+", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"3", "+", 
+          SuperscriptBox["\[Lambda]", "2"]}], ")"}], " ", 
+        SuperscriptBox["z", "3"]}]}], "\[Equal]", "0"}], ",", "z"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"r0", "=", "1."}], ";", 
+  RowBox[{"r1", "=", 
+   RowBox[{"-", "1."}]}], ";", 
+  RowBox[{"r2", "=", "\[Lambda]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"rootPosition", " ", ":=", " ", 
+  RowBox[{"Compile", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{"z", ",", "_Complex"}], "}"}], "}"}], ",", "\n", "    ", 
+    RowBox[{"Which", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{"z", " ", "-", "r0"}], "]"}], " ", "<", "  ", 
+       RowBox[{"10.0", "^", 
+        RowBox[{"(", 
+         RowBox[{"-", "6"}], ")"}]}]}], ",", "1", ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{"z", "-", "r1"}], "]"}], "<", 
+       RowBox[{"10.0", "^", 
+        RowBox[{"(", 
+         RowBox[{"-", "6"}], ")"}]}]}], ",", " ", "1", ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{"z", "-", "r2"}], "]"}], "<", 
+       RowBox[{"10.0", "^", 
+        RowBox[{"(", 
+         RowBox[{"-", "6"}], ")"}]}]}], ",", " ", "1", ",", 
+      "\[IndentingNewLine]", "    ", "True", ",", " ", "0"}], "]"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"rootf", "[", "_", "]"}], ",", "_Complex"}], "}"}], "}"}]}], 
+   "\n", "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"iterSchLambda", " ", "=", " ", 
+   RowBox[{"Compile", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"z", ",", " ", "_Complex"}], "}"}], ",", 
+       RowBox[{"{", " ", 
+        RowBox[{"\[Lambda]", ",", "_Complex"}], "}"}]}], "}"}], ",", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"4", " ", 
+        SuperscriptBox["z", "3"]}], "+", "\[Lambda]", "-", 
+       RowBox[{"10", " ", 
+        SuperscriptBox["z", "2"], " ", "\[Lambda]"}], "+", 
+       RowBox[{
+        SuperscriptBox["z", "4"], " ", "\[Lambda]"}], "+", 
+       RowBox[{"4", " ", "z", " ", 
+        SuperscriptBox["\[Lambda]", "2"]}]}], 
+      RowBox[{"1", "+", 
+       RowBox[{"3", " ", 
+        SuperscriptBox["z", "4"]}], "-", 
+       RowBox[{"4", " ", "z", " ", "\[Lambda]"}], "-", 
+       RowBox[{"4", " ", 
+        SuperscriptBox["z", "3"], " ", "\[Lambda]"}], "+", 
+       RowBox[{"2", " ", 
+        SuperscriptBox["\[Lambda]", "2"]}], "+", 
+       RowBox[{"2", " ", 
+        SuperscriptBox["z", "2"], " ", 
+        SuperscriptBox["\[Lambda]", "2"]}]}]]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"iterColorAlgorithm", "[", 
+   RowBox[{"iterMethod_", ",", "x_", ",", "y_", ",", "lim_"}], "]"}], " ", ":=",
+   "\n", "    ", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"z", ",", "\[Lambda]", ",", "ct", ",", "r"}], "}"}], ",", " ", 
+    RowBox[{
+     RowBox[{"z", " ", "=", 
+      RowBox[{"z", "/.", 
+       RowBox[{"soluciones", "[", 
+        RowBox[{"[", "3", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"\[Lambda]", "=", " ", 
+      RowBox[{"x", " ", "+", " ", 
+       RowBox[{"y", " ", "I"}]}]}], ";", " ", 
+     RowBox[{"ct", " ", "=", " ", "0"}], ";", 
+     RowBox[{"r", " ", "=", " ", 
+      RowBox[{"rootPosition", "[", "z", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"raiz1", "=", "0"}], ";", "\n", "        ", 
+     RowBox[{"While", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"r", "==", "0"}], ")"}], " ", "&&", " ", 
+        RowBox[{"(", 
+         RowBox[{"ct", " ", "<", " ", "lim"}], ")"}]}], ",", "\n", 
+       "            ", 
+       RowBox[{
+        RowBox[{"++", "ct"}], ";", " ", 
+        RowBox[{"z", " ", "=", " ", 
+         RowBox[{"iterMethod", "[", 
+          RowBox[{"z", ",", "\[Lambda]"}], "]"}]}], ";", 
+        RowBox[{"r", " ", "=", " ", 
+         RowBox[{"rootPosition", "[", "z", "]"}]}]}]}], "\n", "\t       ", 
+      "]"}], ";", "\n", "\t", 
+     RowBox[{"raiz1", "=", 
+      RowBox[{"N", "[", "r", "]"}]}], ";", "\t    ", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", "\t\t  ", "\[IndentingNewLine]", 
+     RowBox[{"z", " ", "=", 
+      RowBox[{"z", "/.", 
+       RowBox[{"soluciones", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}]}], ";", 
+     RowBox[{"\[Lambda]", "=", " ", 
+      RowBox[{"x", " ", "+", " ", 
+       RowBox[{"y", " ", "I"}]}]}], ";", " ", 
+     RowBox[{"ct", " ", "=", " ", "0"}], ";", 
+     RowBox[{"r", " ", "=", " ", 
+      RowBox[{"rootPosition", "[", "z", "]"}]}], ";", "\n", "     ", 
+     RowBox[{"raiz2", "=", "0"}], "   ", ";", "\[IndentingNewLine]", 
+     RowBox[{"While", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"r", "==", "0"}], ")"}], " ", "&&", " ", 
+        RowBox[{"(", 
+         RowBox[{"ct", " ", "<", " ", "lim"}], ")"}]}], ",", "\n", 
+       "            ", 
+       RowBox[{
+        RowBox[{"++", "ct"}], ";", " ", 
+        RowBox[{"z", " ", "=", " ", 
+         RowBox[{"iterMethod", "[", 
+          RowBox[{"z", ",", "\[Lambda]"}], "]"}]}], ";", 
+        RowBox[{"r", " ", "=", " ", 
+         RowBox[{"rootPosition", "[", "z", "]"}]}]}]}], "\n", "\t       ", 
+      "]"}], ";", "\n", "\t", 
+     RowBox[{"raiz2", "=", 
+      RowBox[{"N", "[", "r", "]"}]}], ";", "\t    ", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"z", " ", "=", 
+      RowBox[{"z", "/.", 
+       RowBox[{"soluciones", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], ";", 
+     RowBox[{"\[Lambda]", "=", " ", 
+      RowBox[{"x", " ", "+", " ", 
+       RowBox[{"y", " ", "I"}]}]}], ";", " ", 
+     RowBox[{"ct", " ", "=", " ", "0"}], ";", 
+     RowBox[{"r", " ", "=", " ", 
+      RowBox[{"rootPosition", "[", "z", "]"}]}], ";", "\n", "     ", 
+     RowBox[{"raiz3", "=", "0"}], ";", "  ", "\[IndentingNewLine]", " ", 
+     RowBox[{"While", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"r", "==", "0"}], ")"}], " ", "&&", " ", 
+        RowBox[{"(", 
+         RowBox[{"ct", " ", "<", " ", "lim"}], ")"}]}], ",", "\n", 
+       "            ", 
+       RowBox[{
+        RowBox[{"++", "ct"}], ";", " ", 
+        RowBox[{"z", " ", "=", " ", 
+         RowBox[{"iterMethod", "[", 
+          RowBox[{"z", ",", "\[Lambda]"}], "]"}]}], ";", 
+        RowBox[{"r", " ", "=", " ", 
+         RowBox[{"rootPosition", "[", "z", "]"}]}]}]}], "\n", "\t       ", 
+      "]"}], ";", "\n", "\t", 
+     RowBox[{"raiz3", "=", 
+      RowBox[{"N", "[", "r", "]"}]}], ";", "\t    ", "\n", 
+     "\[IndentingNewLine]", "\t", 
+     RowBox[{"Return", "[", 
+      RowBox[{"N", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", "raiz3", ")"}], "*", "4"}], "+", 
+        RowBox[{
+         RowBox[{"(", "raiz2", ")"}], "*", "2"}], "+", "raiz1"}], "]"}], 
+      "]"}]}]}], 
+   RowBox[{"(*", 
+    RowBox[{
+    "Devuelve", " ", "un", " ", "numero", " ", "del", " ", "1", " ", "al", 
+     " ", "27", " ", "que", " ", "marcar\[AAcute]", " ", "el", " ", "color"}],
+     "*)"}], "\n", "\[IndentingNewLine]", "    ", 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Clear", "[", "fractalColorWS", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fractalColorWS", "[", "p_", "]"}], " ", ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Switch", "[", 
+   RowBox[{
+    RowBox[{"IntegerPart", "[", "p", "]"}], ",", "\[IndentingNewLine]", "28", 
+    ",", " ", 
+    RowBox[{"RGBColor", "[", 
+     RowBox[{"1", ",", "1", ",", "1"}], "]"}], ",", "\[IndentingNewLine]", 
+    "0", ",", " ", "Black", ",", "\[IndentingNewLine]", "1", ",", "Brown", 
+    ",", 
+    RowBox[{"(*", 
+     RowBox[{
+     "Solo", " ", "z1", " ", "llega", " ", "a", " ", "una", " ", 
+      "ra\[IAcute]z"}], "*)"}], "\[IndentingNewLine]", "2", ",", "Red", ",", 
+    RowBox[{"(*", 
+     RowBox[{
+     "Solo", " ", "z2", " ", "llega", " ", "a", " ", "una", " ", 
+      "ra\[IAcute]z"}], "*)"}], "\[IndentingNewLine]", "3", ",", "Orange", 
+    ",", 
+    RowBox[{"(*", 
+     RowBox[{
+     "z2", " ", "y", " ", "z1", " ", "llegan", " ", "a", " ", "una", " ", 
+      "ra\[IAcute]z"}], "*)"}], "\[IndentingNewLine]", "4", ",", "Yellow", 
+    ",", 
+    RowBox[{"(*", 
+     RowBox[{
+     "Solo", " ", "z3", " ", "llega", " ", "a", " ", "una", " ", 
+      "ra\[IAcute]z"}], "*)"}], "\[IndentingNewLine]", "5", ",", "Blue", ",", 
+    RowBox[{"(*", 
+     RowBox[{
+     "z3", " ", "y", " ", "z1", " ", "llegan", " ", "a", " ", "la", " ", 
+      "r\[IAcute]z"}], "*)"}], "\[IndentingNewLine]", "6", ",", "Green", ",", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{"Solo", " ", "z2"}], ",", " ", 
+      RowBox[{
+      "z3", " ", "llega", " ", "a", " ", "una", " ", "ra\[IAcute]z"}]}], 
+     "*)"}], "\[IndentingNewLine]", "7", ",", "White"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ft", "[", 
+   RowBox[{"min_", ",", "max_", ",", "pt_", ",", "nTicks_"}], "]"}], ":=", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"taux", ",", "j", ",", 
+      RowBox[{"stepTicks", "=", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"max", "-", "min"}], ")"}], "/", 
+        RowBox[{"(", 
+         RowBox[{"nTicks", "-", "1"}], ")"}]}]}]}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"taux", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"pt", "*", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"j", "-", "1"}], ")"}], "/", 
+            RowBox[{"(", 
+             RowBox[{"nTicks", "-", "1"}], ")"}]}]}], "+", "1"}], ",", 
+         RowBox[{"min", "+", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"j", "-", "1"}], ")"}], "*", "stepTicks"}]}]}], "}"}], 
+       ",", 
+       RowBox[{"{", 
+        RowBox[{"j", ",", "1", ",", "nTicks"}], "}"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Clear", "[", "plotColorFractal", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"plotColorFractal", "[", 
+   RowBox[{"iterMethod_", ",", "points_"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"$Messages", " ", "=", " ", 
+       RowBox[{"{", "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"stepx", "=", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"xxMax", "-", "xxMin"}], ")"}], "/", "points"}]}], ",", 
+      RowBox[{"stepy", "=", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"yyMax", "-", "yyMin"}], ")"}], "/", "points"}]}]}], "}"}], 
+    ",", "\[IndentingNewLine]", 
+    RowBox[{"ArrayPlot", "[", 
+     RowBox[{
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"iterColorAlgorithm", "[", 
+         RowBox[{"iterMethod", ",", "x", ",", "y", ",", "limIterations"}], 
+         "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", "yyMax", ",", 
+          RowBox[{"1.00001", "*", "yyMin"}], ",", 
+          RowBox[{"-", "stepy"}]}], "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "xxMin", ",", 
+          RowBox[{"1.00001", "*", "xxMax"}], ",", "stepx"}], "}"}]}], "]"}], 
+      ",", "\[IndentingNewLine]", 
+      RowBox[{"FrameTicks", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"ft", "[", 
+          RowBox[{"yyMax", ",", "yyMin", ",", "points", ",", "5"}], "]"}], 
+         ",", 
+         RowBox[{"ft", "[", 
+          RowBox[{"xxMin", ",", "xxMax", ",", "points", ",", "5"}], "]"}]}], 
+        "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"PlotRange", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "9"}], "}"}]}], ",", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"Three", " ", "roots"}], " ", "+", " ", "fixed"}], "  ", 
+       "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"ColorFunctionScaling", "\[Rule]", "False"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"ColorFunction", "\[Rule]", "fractalColorWS"}]}], 
+     "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Off", "[", 
+   RowBox[{"General", "::", "ovfl"}], "]"}], ";", "    ", 
+  RowBox[{"Off", "[", 
+   RowBox[{"General", "::", "unfl"}], "]"}], ";", "    ", 
+  RowBox[{"Off", "[", 
+   RowBox[{"Infinity", "::", "indet"}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Off", "[", 
+   RowBox[{"CompiledFunction", "::", "cccx"}], "]"}], ";", "    ", 
+  RowBox[{"Off", "[", 
+   RowBox[{"CompiledFunction", "::", "cfn"}], "]"}], ";", " ", 
+  RowBox[{"Off", "[", 
+   RowBox[{"CompiledFunction", "::", "cfcx"}], "]"}], ";", "    ", 
+  RowBox[{"Off", "[", 
+   RowBox[{"CompiledFunction", "::", "cfex"}], "]"}], ";", " ", 
+  RowBox[{"Off", "[", 
+   RowBox[{"CompiledFunction", "::", "crcx"}], "]"}], ";", "    ", 
+  RowBox[{"Off", "[", 
+   RowBox[{"CompiledFunction", "::", "cfse"}], "]"}], ";", " ", 
+  RowBox[{"Off", "[", 
+   RowBox[{"CompiledFunction", "::", "ilsm"}], "]"}], ";", "    ", 
+  RowBox[{"Off", "[", 
+   RowBox[{"CompiledFunction", "::", "cfsa"}], 
+   "]"}]}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.8062387366185536`*^9, 3.8062387383373437`*^9}, {
+   3.806238793617044*^9, 3.8062387999528127`*^9}, {3.8062388694428263`*^9, 
+   3.806238947231866*^9}, {3.806238982314652*^9, 3.8062390037872334`*^9}, {
+   3.806239036390523*^9, 3.8062391473038473`*^9}, {3.8062391912487445`*^9, 
+   3.8062392092800665`*^9}, {3.8062392741541286`*^9, 
+   3.8062392748267436`*^9}, {3.8062410123527064`*^9, 3.806241055343614*^9}, 
+   3.8063931300355635`*^9},
+ CellLabel->"In[36]:=",ExpressionUUID->"6accb940-7e63-4737-b6f1-2f9dfcb740fb"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"numberPoints", " ", "=", "1024"}], ";", 
+  RowBox[{"limIterations", "=", "100"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"xxMin", "=", 
+   RowBox[{"-", "0.0001"}]}], ";", " ", 
+  RowBox[{"xxMax", "=", "0.0001"}], ";", " ", 
+  RowBox[{"yyMin", "=", "10.00615"}], ";", " ", 
+  RowBox[{"yyMax", "=", "10.0064"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"plotColorFractal", "[", 
+  RowBox[{"iterSchLambda", ",", " ", "numberPoints"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.806393133669814*^9, 3.806393213797886*^9}},
+ CellLabel->"In[51]:=",ExpressionUUID->"1250b2ee-b753-4e54-a655-5ac984654729"],
+
+Cell[BoxData[
+ GraphicsBox[RasterBox[CompressedData["
+1:eJzszrsNwlAURMHLpxEqoQeXYAkRunWXgJCza2cE+4TnJLPhPuZlet2q6n2t
+utyrvntrfZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZL81V76D0mSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JElyTHvpPyRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiTHsZf+
+Q5IkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSfI89tJ/SJIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZJ1WPoPSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkyb299B+SJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMmz2Uv/IUmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmS5Jj20n9IkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkvwn
+e+k/JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMexl/5DkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkh926yVJbSAKoij7X7WnKA0NQqX6vDo5ORE3HPiJxrRJkiQ5
+1tzoe0iSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSrGRu9D0k
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSVYyN/oekiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiQrmRt9D0mSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJElyrLnR95AkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk+Y250feQJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSZFVzo+8hSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSbKS
+udH3kCRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJsoa5T3221ydJ8oq5T3221ydJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkv3NVe+rW/W5SM5vbvQ9dz9X1U6SJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJOc3V6XP5tn7W3WS9czt+n1y
+9v5VOkmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS3Mfcan02z95/
+d2cNc6PvYVtzo/tsnr1/tk6SJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSrGHuUyefzVXvu70/s31O+Ju50fesbm7057nVPaP6bs97tpPP5nx+SJIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkyfXNfeqzvT7bmtP1mTp5hzld
+n6lzrLnWP6+7X58kSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZJkf3Oz
+do41p+sVe1U9r67X6xxrbtZOkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJ7mzuU5/tnlGdfczpur6+uz2Xru/c2cfcrH2294EkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZK8Yk7fo/u86br+rvM3c7quz9d9P+g9O0mSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJPlsrvXr6Gv1uz9Xuq6v21f/PeX7
+Tdf1d933g/7cV/89RZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkST6b
+03Vd12v1VTz7XLqu6/panSRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kuR1c7qu6/rcvdX3vN8Xuq7rtTtJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiTJeczpuq7ruq7rur5+J0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJDmPOV3XdV3XdV3X1+8kSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIk5zGn67qu67qu6/r6nSRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kmR/c7qu67qu67qu79dJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+3mdO13Vd13Vd1/X9OkmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMn7
+zOm6ruu6ruu6vl8nSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk2d+c
+ruu6ruu6ruvrd5IkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZLzm9N1
+Xdd1Xdd1fb5OkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJsp45Xdd1
+Xdd1Xdfv7yRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiTrmdN1Xdd1
+Xdd1fb5OkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJcl1zuq7ruq7r
+uq7P10mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEnOb07XdV3XdV3X
+9fU7SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkyevmdF3XdV3XdV3X
+W3eSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmykjld13Vd13Vd1/XV
+OkmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJNnTnK7ruq7ruq7run7s
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS5BVzuq7ruq7ruq7r+rGT
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSd5jTdV3XdV3XdV2v3kmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMme5nRd13Vd13Vd16t3kiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJsqc5Xdd1Xdd1Xdf16p0kSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZKcwZyu67qu67qu6/pqnSRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkpzZnK7ruq7ruq7r+mqdJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSnMGcruu6ruu6rut69U6SJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEneYU7XdV3XdV3XdV0/dpIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkyd3Mfer825yu67qu67qu67p+7PzbnPeT
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMn7zc3aV3/eVe7UdV3XdV3X
+dV2v2s+6yp2z3X+2kyRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiS5gzld
+13Vd13Vd13Vd1/VenSRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiTJHczp
+uq7ruq7ruq7ruq736iRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiTJtuZa
+d/5mTtd1Xdd1Xdd1Xdd1vVfnb+b8XEiSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEn+aq515+PldF3XdV3XdV3XdV3Xe3U+Xs77TJIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSXK0udZ9N3O6ruu6ruu6ruu6ruu9+m7mvJ8kSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkZzXXuld9Ll3XdV3XdV3XdV3XdX2sre5/
+10mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmylblZ++r367qu67qu67qu
+67qu79bfOeqes50kSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkR5nTdV3X
+dV3XdV3XdV3X9RU6SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSa5iTtd1
+Xdd1Xdd1Xdd1XddX6CRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiS5ijld
+13Vd13Vd13Vd13VdX6GTJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS5Chz
+uq7ruq7ruq7ruq7ruq6TJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS5P/T
+dV3XdV3XdV3XdV3XdX2+TpIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSXJd
+c7qu67qu67qu67qu67quz9dJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+zmNudD97p/dN13Vd13Vd13Vd13Vdf+6jPHvPuz8/qpMkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZI7mBv997bqu5nTdV3XdV3XdV3XdV3X7+m7mVvt/Rz1
+95IkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZLfmFut72ZO13Vd13Vd13Vd
+13Vdv6fvZm61TpIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSc5gbvQ9u90/
+6v3RdV3XdV3XdV3XdV3X/+58vNzoe3a7nyRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkjXMjb6Hc5rTdV3XdV3XdV3XdV2ftZPP5kbfQ5IkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkyRrmRt/DGuZ0Xdd1Xdd1Xdd1Xddn7eQVc6PvIUmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS5JzmRt/Dtczpuq7ruq7ruq7ruq5X
+6eQ35kbfQ5IkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSbKeOV3XdV3XdV3X
+dV3X9SqdJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMkZzOm6ruu6ruu6
+ruu6rlfpJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmuaE7XdV3XdV3X
+dV3Xdb1XJ0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJElyB3Oj++r367qu
+67qu67qu63rPftZRd77rJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEnu
+bO7Xvop333/29d/9eV3XdV3XdV3Xdf23/s6zf/6sd7/+3b67/2wnSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZL/m/vU2dacruu6ruu6ruu6fq2zrTnv
+P0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSrGJO13Vd13Vd13VdP3aS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEnyDnO6ruu6ruu6ruvVO0mS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJNnTnK7ruq7ruq7revVOkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ9jSn67qu67qu67pevZMkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZJ3mNN1Xdd1Xdd1XdePnSRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkrxiTtd1Xdd1Xdd1XT92kiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ8oo5Xdd1Xdd1Xdd1/dhJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiTJK+Z0Xdd1Xdd1Xdf1YydJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiR7mtN1Xdd1Xdd1XV+tkyRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkpXM6bqu67qu67qut+4kSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZLkzuZ0Xdd1Xdd1Xddbd5IkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZL/m9N1Xdd1Xdd1Xf/USZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSX5vTtd1Xdd1Xdd1/VMnSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIk+b85Xdd1Xdd1Xdf11p0kSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZLcwZyu67qu67qu6/roTpIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSVYyp+u6ruu6ruu6PrqTJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSM5jTdV3XdV3XdV3Xj50kSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZL8xpyu67qu67qu67p+rZMkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSXJPc7qu67qu67qu63rfTpIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkST6b03Vd13Vd13Vd14+dJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSvMOcruu6ruu6rut69U6SJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEn2NKfruq7ruq7rul69kyRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkj3N6bqu67qu67quV+8kSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZJkT3O6ruu6ruu6ruvVO0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJHmHuV37bO+/n5eu67qu63rt3ur/h6P+v7pbJ0mSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJK+Y+7VXvWc23z2vruu6ruu6vlav6rvnPdur
+3kOSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMk9zf3a2cecruu6ruu6
+vmZnH3N+XiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiR/Nafruq7r
+uq7P0UmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSNczpuq7ruq7r
+c3SSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSZA1zuq7ruq7r+hyd
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJLmnOV3XdV3Xdf27TpIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZLkN+Z0Xdd1Xdf17zpJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkt+Ym7VXfS5d13Vd36FX/T1O
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkuQVc6Pvufu5dF3XdV2/
+3le36nORJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJDmDOV3XdV3X
+33eSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMlW5nRd13V9p06S
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJFnVnK7rur53J0mSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS5JzmdF3X9b6dJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmStc3puq7rfTtJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiT5bE7XdV0/dpIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSfKKOV3Xdf3YSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkySvmdF3X9WMnSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkr5jTdV3Xj50kSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZK8Yk7XdV0/dpIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SfLZnK7rut63kyRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJsrY5
+Xdd1vW8nSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZJkbXO6rut6
+306SJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMna5nRd1/W+nSRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkjXM6bqu63N3kiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJjjWn67qu791JkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiT5mzld13VdP9NJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiT5tzld13VdP9NJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiT5tzld13VdP9NJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiT5mzld13V9706SJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJMm25nRd1/W9O0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJH8zp+u6rutnOkmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJB8vp+u6rut3dpIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+yarmdF3XdX2mTpIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkOcqc
+ruu6ruvvO0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSZE7XdV3X
+9XGdJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEnynTld13Vd36mT
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEnebU7XdV3Xd+okSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZKrm9N1Xdf1M50kSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZJtzem6ruu1OkmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJMea03Vd12t1kiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJ9jGn67qu791JkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiTZ1pyu67q+dydJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkuRv5nRd13X9TCdJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkuTj5XRd13X9zk6SJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJFnVnK7ruq7P1EmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JKua03Vd1/U7O0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJB8v
+p+u6rutnOkmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJB8vp+u6
+rut3dpIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkyarmdF3XdX2m
+TpIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkWdWcruu6rt/ZSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkq5ob3Ve5U9d1ffW+yvct
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZLkKuZG91HPu/r7put6
+vT7q+23170OSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMncrn03
+c7qu79d3M7drJ0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS/c1V
+73y8nK7r+3U+Xq56J0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+95n71Ge7Z9Sdu5nTdX39zrbmZv25zHYPSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZKVzH3qs7nKnVXN9fpctfp7dX3mvsq/R/5mbvQ9rT5XJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSnNNc69fR9Zn7qH8vJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJNnKnK6P6CRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRZ1Zyuj+gkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkWdWcro/oJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJLmbOV1v0UmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSj5fT9RadJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJPl4OV1v0UmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJP+x
+RwerEcNAEAXz/1+dezsBI3bd1qjepaBPI0SSJEmSp5nZ7Y2dJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJHcxs9sn7iRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiTZMmvvu98/dd/9X0iSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEny22af3qe+y971U/f/t5MkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkP2t26k6SJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmS5BvM3rqTJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJPlmsyk7SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZJvMJuykyRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiT5BrMpO0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSbzCb
+spMkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkuaPZUztJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiebre4kSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSfJqtrqTJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJMn7Zu17SJIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZLc0Wx1J0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSV7PVnSRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJXs1Wd5IkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkeTVb
+3UmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSPNnsqZ0kSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkyZPNVneSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJE8we+tOkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkuQJZqs7SZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZK8b9a+hyRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiTJHc1Wd5IkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIked+sfQ9JkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkpPM
+2veQJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJDnJrH0PSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZI7mq3uJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEnyvln7HpIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIk32z21E6SJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmS5AlmT+0kSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSe5oNmUnSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSXJHs6d2kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRP
+MHtqJ0mSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSV7P2PSRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJTjJr30OSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS5CSz9j0kSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSU4ya99DkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkuQks/Y9JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEnuaLa6kyRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiTJ+2bte0iSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+nGTWvockSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkyUlm7XtI
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkpxk1r6HJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMlJZu17SJIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZKcZNa+hyRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiTJSWbte0iSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSnGTWvockSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkyUlm7XtIkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kpxk1r6HJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJMlJZu17
+SJIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZJ7mbXv
+IUmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJMmpZu17SJIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZKcZNa+hyRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiTJSWbt
+e0iSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSnGTWvockSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZI/f9a+hyRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiTJSWbte0iSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJElyqln7
+HpIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSf62O8c2AMAwDMP+/7q71yIwglALV5EkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkN5q1f0iSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJMkfs/YPSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk
+SZIkSXKXWfuHJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEnymln7hyRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJ
+kiRJkiRJkiRJkiRJkiRJkiRJkiRJkpwwa/+QJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS
+JEmSJEmSJEmSJEmSJEmSJEmSJEmSJMkJHwpcdgs=
+   "], {{0, 0}, {1025, 615}}, {0, 1}],
+  Frame->Automatic,
+  FrameLabel->{None, None},
+  FrameTicks->{{{{614.5, 
+       FormBox["10.0064`", TraditionalForm]}, {358.5, 
+       FormBox["10.006337499999999`", TraditionalForm]}, {102.5, 
+       FormBox["10.006274999999999`", TraditionalForm]}, {-153.5, 
+       FormBox["10.0062125`", TraditionalForm]}, {-409.5, 
+       FormBox["10.00615`", TraditionalForm]}}, None}, {{{0.5, 
+       FormBox[
+        RowBox[{"-", "0.0001`"}], TraditionalForm]}, {256.5, 
+       FormBox[
+        RowBox[{"-", "0.00005`"}], TraditionalForm]}, {512.5, 
+       FormBox["0.`", TraditionalForm]}, {768.5, 
+       FormBox["0.00005000000000000001`", TraditionalForm]}, {1024.5, 
+       FormBox["0.0001`", TraditionalForm]}}, None}},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  ImageSize->{649.9999999999984, Automatic},
+  Method->{
+   "DefaultBoundaryStyle" -> Automatic, "DefaultPlotStyle" -> 
+    Automatic}]], "Output",
+ CellChangeTimes->{3.8063931934753075`*^9, 3.806397479004683*^9},
+ CellLabel->"Out[53]=",ExpressionUUID->"1049f040-ed02-4461-8a02-ddb8a246db5c"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"numberPoints", " ", "=", "512"}], ";", 
+  RowBox[{"limIterations", "=", "100"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"xxMin", "=", 
+   RowBox[{"-", "5.25"}]}], ";", " ", 
+  RowBox[{"xxMax", "=", "5.25"}], ";", " ", 
+  RowBox[{"yyMin", "=", 
+   RowBox[{"-", "3.4"}]}], ";", " ", 
+  RowBox[{"yyMax", "=", "3.4"}], ";", 
+  RowBox[{"plotColorFractal", "[", 
+   RowBox[{"iterSchLambda", ",", " ", "numberPoints"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.8063931682617245`*^9, 
+  3.8063931704578943`*^9}},ExpressionUUID->"8e1e0eb5-825b-43a0-84b1-\
+4ea7d9d46551"]
+},
+WindowSize->{1366, 685},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+Magnification:>1.5 Inherited,
+FrontEndVersion->"11.3 para Microsoft Windows (64-bit) (March 6, 2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 15233, 405, 3319, "Input",ExpressionUUID->"6accb940-7e63-4737-b6f1-2f9dfcb740fb"],
+Cell[CellGroupData[{
+Cell[15816, 429, 624, 13, 102, InheritFromParent,ExpressionUUID->"1250b2ee-b753-4e54-a655-5ac984654729"],
+Cell[16443, 444, 33713, 559, 644, "Output",ExpressionUUID->"1049f040-ed02-4461-8a02-ddb8a246db5c"]
+}, Open  ]],
+Cell[50171, 1006, 593, 15, 102, "Input",ExpressionUUID->"8e1e0eb5-825b-43a0-84b1-4ea7d9d46551"]
+}
+]
+*)
+
